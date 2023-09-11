@@ -1,4 +1,51 @@
 package com.example.Task.manager.service.Impl;
 
-public class CategoryImpl {
+import com.example.Task.manager.dto.CategoryRegistrationDto;
+import com.example.Task.manager.dto.CategoryResponse;
+import com.example.Task.manager.model.Category;
+import com.example.Task.manager.repository.CategoryRepository;
+import com.example.Task.manager.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class CategoryImpl implements CategoryService {
+    private CategoryRepository categoryRepository;
+    @Autowired
+    public CategoryImpl(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
+    @Override
+    public CategoryRegistrationDto createCategory(CategoryRegistrationDto categoryRegistrationDto) {
+        Category category = new Category();
+        category.setName(categoryRegistrationDto.getName());
+        Category newCategory = categoryRepository.save(category);
+
+        CategoryRegistrationDto categoryResponse = new CategoryRegistrationDto();
+        categoryResponse.setId(newCategory.getId());
+        categoryResponse.setName(newCategory.getName());
+        return categoryResponse;
+    }
+
+    @Override
+    public CategoryResponse getAllCategory(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<Category> categories = categoryRepository.findAll(pageable);
+        List<Category> listOfCategory = categories.getContent();
+        List<CategoryRegistrationDto> content = listOfCategory.stream().map(p -> mapToDto(p)).collect(Collectors.toList());
+        return null;
+    }
+
+    private CategoryRegistrationDto mapToDto(Category category){
+        CategoryRegistrationDto categoryRegistrationDto = new CategoryRegistrationDto();
+        categoryRegistrationDto.setId(category.getId());
+        categoryRegistrationDto.setName(category.getName());
+        return categoryRegistrationDto;
+    }
 }

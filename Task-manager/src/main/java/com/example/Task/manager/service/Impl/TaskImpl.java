@@ -81,6 +81,7 @@ public class TaskImpl implements TaskService {
         }
         taskRepository.delete(task);
     }
+
     private TaskRegistrationDto mapToDto(Task task){
        TaskRegistrationDto taskRegistrationDto = new TaskRegistrationDto();
         taskRegistrationDto.setId(task.getId());
@@ -90,13 +91,4 @@ public class TaskImpl implements TaskService {
         taskRegistrationDto.setPriority(task.getPriority());
         return taskRegistrationDto;
     }
-    private Task mapToEntity(TaskRegistrationDto registrationDto){
-        Task task = new Task();
-        task.setTitle(registrationDto.getTitle());
-        task.setDescription(registrationDto.getDescription());
-        task.setDueDate(registrationDto.getDueDate());
-        task.setPriority(registrationDto.getPriority());
-        return task;
-    }
-
 }
