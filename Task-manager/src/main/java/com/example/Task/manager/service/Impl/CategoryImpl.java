@@ -2,6 +2,7 @@ package com.example.Task.manager.service.Impl;
 
 import com.example.Task.manager.dto.CategoryRegistrationDto;
 import com.example.Task.manager.dto.CategoryResponse;
+import com.example.Task.manager.exception.CategoryNotFoundException;
 import com.example.Task.manager.model.Category;
 import com.example.Task.manager.repository.CategoryRepository;
 import com.example.Task.manager.service.CategoryService;
@@ -39,8 +40,31 @@ public class CategoryImpl implements CategoryService {
         Page<Category> categories = categoryRepository.findAll(pageable);
         List<Category> listOfCategory = categories.getContent();
         List<CategoryRegistrationDto> content = listOfCategory.stream().map(p -> mapToDto(p)).collect(Collectors.toList());
-        return null;
+
+        CategoryResponse categoryResponse = new CategoryResponse();
+        categoryResponse.setContent(content);
+        categoryResponse.setPageNo(categories.getNumber());
+        categoryResponse.setPageSize(categories.getSize());
+        categoryResponse.setTotalElement(categories.getTotalElements());
+        categoryResponse.setTotalPages(categories.getTotalPages());
+        categoryResponse.setLast(categories.isLast());
+        return categoryResponse;
     }
+
+    @Override
+    public CategoryRegistrationDto getCategoryById(Long Id) {
+        Category category = categoryRepository.findById(Id).orElseThrow(()-> new CategoryNotFoundException("Category could not be found"));
+        return mapToDto(category);
+    }
+
+    @Override
+    public CategoryRegistrationDto updateCategory(CategoryRegistrationDto categoryRegistrationDto, Long Id) {
+        Category category = categoryRepository.findById(Id).orElseThrow(()-> new CategoryNotFoundException("Category could not be deleted"));
+        category.setName(category.getName());
+        Category updateCategory = categoryRepository.save(category);
+        return mapToDto(updateCategory);
+    }
+
 
     private CategoryRegistrationDto mapToDto(Category category){
         CategoryRegistrationDto categoryRegistrationDto = new CategoryRegistrationDto();

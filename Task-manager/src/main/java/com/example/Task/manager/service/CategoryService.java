@@ -6,4 +6,6 @@ import com.example.Task.manager.dto.CategoryResponse;
 public interface CategoryService {
     CategoryRegistrationDto createCategory(CategoryRegistrationDto categoryRegistrationDto);
     CategoryResponse getAllCategory(int pageNo, int pageSize);
+    CategoryRegistrationDto getCategoryById(Long Id);
+    CategoryRegistrationDto updateCategory(CategoryRegistrationDto categoryRegistrationDto, Long Id);
 }
