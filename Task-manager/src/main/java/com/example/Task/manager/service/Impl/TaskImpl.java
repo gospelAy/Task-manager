@@ -76,7 +76,7 @@ public class TaskImpl implements TaskService {
         Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException("category with associated task not found"));
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new TaskNotFoundException("Task with associated category not found"));
 
-        if (task.getCategory().getId() != category.getId()){
+        if (!Objects.equals(task.getCategory().getId(), category.getId())){
             throw new TaskNotFoundException("This task does not belong to a category");
         }
         taskRepository.delete(task);

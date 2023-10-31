@@ -3,7 +3,6 @@ package com.example.Task.manager;
 import com.example.Task.manager.dto.TaskRegistrationDto;
 import com.example.Task.manager.model.Category;
 import com.example.Task.manager.model.Priority;
-import com.example.Task.manager.model.Task;
 import com.example.Task.manager.repository.CategoryRepository;
 import com.example.Task.manager.repository.TaskRepository;
 import com.example.Task.manager.service.TaskService;
@@ -48,20 +47,5 @@ class TaskManagerApplicationTests {
 		categoryRepository.save(category);
 		TaskRegistrationDto result = taskService.createTask(registrationDto);
 		assertNotNull(result);
-	}
-	@Test
-	public void testGetAllTasks() {
-		Task task1 = new Task();
-		task1.setId(1L);
-		task1.setTitle("Sample Task 1");
-		task1.setDescription("Description 1");
-		Task task2 = new Task();
-		task2.setId(2L);
-		task2.setTitle("Sample Task 2");
-		task2.setDescription("Description 2");
-//		taskRepository.save(task1);
-//		taskRepository.save(task2);
-//		List<TaskRegistrationDto> result = taskService.getAllTasks();
-//		assertEquals(2, result.size());
 	}
 }

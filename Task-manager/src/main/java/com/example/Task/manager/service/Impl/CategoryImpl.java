@@ -60,11 +60,10 @@ public class CategoryImpl implements CategoryService {
     @Override
     public CategoryRegistrationDto updateCategory(CategoryRegistrationDto categoryRegistrationDto, Long Id) {
         Category category = categoryRepository.findById(Id).orElseThrow(()-> new CategoryNotFoundException("Category could not be deleted"));
-        category.setName(category.getName());
+        category.setName(categoryRegistrationDto.getName());
         Category updateCategory = categoryRepository.save(category);
         return mapToDto(updateCategory);
     }
-
 
     private CategoryRegistrationDto mapToDto(Category category){
         CategoryRegistrationDto categoryRegistrationDto = new CategoryRegistrationDto();
